@@ -1,0 +1,41 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  color: black;
+  background-color: rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+body {
+  font-family: 'PT Sans Caption', sans-serif;
+}
+
+h1 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 4em;
+  text-align: center;
+}
+
+button, #play-btn, #add-track-btn {
+  display: inline-block;
+  border-radius: 20px;
+  background-color: steelblue;
+  color: lightsalmon;
+}
+
+button:hover, #play-btn:hover, #add-track-btn:hover {
+	background-color: lightsalmon;
+  color: steelblue;
+	animation: color_change 1s;
+}
+
+#track-url {
+  width: 60vw;
+  box-sizing: border-box;
+}
+
+#url-input {
+  width: 400px;
+  padding: 0 5px 0 0;
+  overflow: hidden;
+}

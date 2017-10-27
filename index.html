@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Sandro's Jukebox app</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
+  <link rel="stylesheet" href="./css/styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans+Caption" rel="stylesheet">
+  <!-- <script type="text/javascript" src="https://connect.soundcloud.com/sdk/sdk-3.2.2.js"></script> -->
+</head>
+
+<body>
+
+  <!-- placeholder="http://www.noiseaddicts.com/samples_1w72b820/292.mp3" autofocus required -->
+
+  <h1>Hypertext Gramophone</h1>
+  <br>
+  <p style="color: grey">to test, try http://www.noiseaddicts.com/samples_1w72b820/292.mp3</p>
+
+  <audio id="audio"></audio><br>
+  <form id="play-form">
+    <label>Play Track</label>
+    <input type="text" name="playTrack" placeholder="paste url here">
+    <input type="submit" id="play-btn" value="play">
+  </form>
+
+  <div id="now-playing"></div>
+
+
+  <div>
+    <button id="play-toggle">play/pause</button>
+    <button id="play-stop">stop</button>
+  </div>
+
+  <div class="elapsed-time">time (doesn't work yet)
+    <input type="range" id="time" min="0" max="100" value="0">
+  </div>
+  <div>
+    <label for="volume">Volume:</label>
+    <input name="volume" type="range" id="volume" max="100" min="0" value="75" onChange="changeVolume()" onKeyUp="changeVolume()">
+    <span id="volume-value"></span>
+  </div>
+
+  <br>
+
+
+
+  <form id="playlist-form">
+    <label>Add Track</label>
+    <input type="text" name="track">
+    <input type="submit" id="add-track-btn" value="add track">
+  </form>
+  <div>
+    <button id="remove-first">Remove first</button>
+    <button id="remove-last">Remove last</button>
+  </div>
+
+  <ul id="playlist">
+
+  </ul>
+
+  <!-- try this one: http://www.noiseaddicts.com/samples_1w72b820/292.mp3 -->
+  <!-- and this one: http://www.sample-videos.com/audio/mp3/wave.mp3 -->
+  <script type="text/javascript" src="js/main.js"></script>
+</body>
+
+</html>
+
+<!-- <script src="https://connect.soundcloud.com/sdk/sdk-3.2.2.js"></script>
+<script>
+SC.initialize({
+  client_id: XXX
+});
+
+var track_url = 'http://soundcloud.com/forss/flickermood';
+SC.oEmbed(track_url, { auto_play: true }).then(function(oEmbed) {
+  console.log('oEmbed response: ', oEmbed);
+});
+</script> -->
