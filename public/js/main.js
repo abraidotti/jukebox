@@ -58,6 +58,7 @@ stopButton.addEventListener('click', function() {
 
 // show the current time
 jukebox.addEventListener("timeupdate", function() {
+  // Could probably condense this stuff to a sweet ternary op statement
   let s = parseInt(jukebox.currentTime % 60);
   let m = parseInt((jukebox.currentTime / 60) % 60);
   if (m <= 9) m = '0' + m;
@@ -75,15 +76,15 @@ jukebox.addEventListener("timeupdate", function() {
 function setTime() {
   let newTime = jukebox.currentTime * (100 / jukebox.duration);
   timeSlider.value = newTime;
-
-}
-
-volume.addEventListener("input", function() {
-  jukebox.volume = volume.value;
-  volumeValue.innerHTML = volume.value;
-}, false);
+};
 
 // change song time with time slider
 timeSlider.addEventListener("input", function() {
   jukebox.currentTime = timeSlider.value;
+}, false);
+
+// change volume with slider, display volume
+volume.addEventListener("input", function() {
+  jukebox.volume = volume.value;
+  volumeValue.innerHTML = volume.value;
 }, false);

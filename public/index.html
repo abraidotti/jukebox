@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Soundcloud-powered Jukebox</title>
+  <title>Jukebox</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css">
   <link rel="stylesheet" href="./css/styles.css">
   <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
@@ -17,22 +17,10 @@
   <!-- or this one: http://www.sample-videos.com/audio/mp3/wave.mp3 -->
   <h1>Hypertext Gramophone</h1>
   <br>
-  <p>http://www.noiseaddicts.com/samples_1w72b820/292.mp3</p>
-  <p>http://www.sample-videos.com/audio/mp3/wave.mp3</p>
+  <p>try: http://www.noiseaddicts.com/samples_1w72b820/292.mp3</p>
+  <p>or: http://www.sample-videos.com/audio/mp3/wave.mp3</p>
 
   <audio id="audio"></audio><br>
-
-
-
-  <div class="textbox">
-    <div class="artist"></div>
-    <a href="" class="artist-url"></a>
-    <div class="song-title"></div>
-    <a href="" class="song-url"></a>
-    <div class="description"></div>
-    <div class="genre"></div>
-    <div class="created"></div>
-  </div>
 
   <form>
     <label for="song">Add a track</label>
@@ -41,7 +29,6 @@
   </form>
 
   <div id="now-playing"></div>
-
 
   <div>
     <button id="play-toggle">play/pause</button>
@@ -54,15 +41,11 @@
     <span id="elapsed-time"></span>
   </div>
 
-
   <div>
     <label for="volume">Volume:</label>
     <input id="volume" type="range" min="0" max="1" value="0.7" step="0.05">
     <span id="volume-value"></span>
   </div>
-
-
-
 
   <script src="js/main.js"></script>
 
