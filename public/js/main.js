@@ -1,139 +1,89 @@
-function(ENV, ) {
-  console.log("Main.js is hooked up.");
+// initialize jukebox
+const jukebox = document.querySelector('#audio');
+const playForm = document.forms[0];
+const playButton = document.querySelector('#play-button');
+const playToggle = document.querySelector('#play-toggle');
+const stopButton = document.querySelector('#stop-button');
+const elapsedTime = document.querySelector('#elapsed-time');
+const timeSlider = document.querySelector('#time-slider');
+const volume = document.querySelector('#volume');
+const volumeValue = document.querySelector('#volume-value');
 
-  // initialize jukebox
-  var jukebox = document.querySelector('#audio');
+// user can paste in a url and submit a song to be played
+// http://www.noiseaddicts.com/samples_1w72b820/292.mp3" autofocus required
+// or try this one: http://www.noiseaddicts.com/samples_1w72b820/292.mp3
+// or this one: http://www.sample-videos.com/audio/mp3/wave.mp3
 
-  // handle the load form
-  var playForm = document.querySelector('#play-form');
+playForm.addEventListener('submit', function(event) {
+  event.preventDefault();
+  loadTrack(playForm.song.value);
+});
 
-  // load a track and play it
-  var playTrack = document.querySelector('#play-track');
-
-  // play/pause and stop the track
-  var playToggle = document.querySelector('#play-toggle');
-  var playStop = document.querySelector('#play-stop');
-
-  var elapsedTime = document.querySelector('#elapsed-time');
-
-  // user can paste in a url and submit a song to be played
-  // example: http://www.noiseaddicts.com/samples_1w72b820/292.mp3
-
-  playForm.addEventListener('submit', function(event) {
-    // since the form reloads the page on submission,
-    // we need this special function:
-    event.preventDefault();
-    // get value from input
-    // since we named the input "playTrack," we can call it like a property
-    let track = event.target.playTrack
-    jukebox.src = track.value;
+function loadTrack(song) {
+  //check if valid file
+  if (song.match(/mp3$/)) {
+    jukebox.src = song;
     jukebox.play();
-    document.querySelector("#now-playing").innerHTML = "now playing: " + track.value;
-    console.log("Current track:" + jukebox.currentSrc)
-  });
-
-  // toggle play/pause function
-  function playbackToggle() {
-    if (jukebox.paused == true) {
-      jukebox.play();
-      playToggle.innerHTML = "pause";
-      console.log("Playback continued.");
-    } else {
-      jukebox.pause();
-      playToggle.innerHTML = "play";
-      console.log("Playback paused.");
-    }
+    document.querySelector("#now-playing").textContent = "now playing: " + song;
+    console.log("Current song: " + song);
+  } else {
+    playForm.song.value = "need valid mp3 url";
   };
+};
 
-  // use the play/pause button to toggle play/pause
-  playToggle.addEventListener('click', function() {
-    playbackToggle();
-  }, false);
-
-  // use the stop button to stop play and reset time to 0
-  playStop.addEventListener('click', function() {
+// toggle play/pause function
+function playbackToggle() {
+  if (jukebox.paused == true) {
+    jukebox.play();
+    playToggle.innerHTML = "pause";
+    console.log("Playback continued.");
+  } else {
     jukebox.pause();
-    jukebox.currentTime = 0;
-    console.log("Playback stopped.");
-  }, false);
+    playToggle.innerHTML = "play";
+    console.log("Playback paused.");
+  }
+};
 
-  // // show the current time
-  // showElapsedTime = function() {
-  //  let currentTime = formatTime(jukebox.currentTime);
-  //  let duration = formatTime(jukebox.duration);
-  //
-  // convert seconds to minutes and seconds
-  //  function formatTime(seconds) {
-  //     minutes = Math.floor(seconds / 60);
-  //     minutes = (minutes >= 10) ? minutes : "0" + minutes;
-  //     seconds = Math.floor(seconds % 60);
-  //     seconds = (seconds >= 10) ? seconds : "0" + seconds;
-  //     return minutes + ":" + seconds;
-  //   };
-  //
-  //  // update elapsed time in the dom
-  //  document.querySelector("#elapsed-time").innerHTML = currentTime + '/' + duration;
-  // };
+// use the play/pause button to toggle play/pause
+playToggle.addEventListener('click', function() {
+  playbackToggle();
+}, false);
 
-  // setInterval(showElapsedTime, 1000);
+// use the stop button to stop play and reset time to 0
+stopButton.addEventListener('click', function() {
+  jukebox.pause();
+  jukebox.currentTime = 0;
+  console.log("Playback stopped.");
+}, false);
 
-  // change volume with volume slider
-  function changeVolume() {
-    var jukeboxVolume = document.getElementById('volume');
-    var volumeValue = document.getElementById('volume-value');
-    volumeValue.innerHTML = jukeboxVolume.value + " %";
-    jukebox.volume = jukeboxVolume.value / 100;
-    console.log("jukebox volume: " + jukebox.volume + "%")
-  };
+// show the current time
+jukebox.addEventListener("timeupdate", function() {
+  let s = parseInt(jukebox.currentTime % 60);
+  let m = parseInt((jukebox.currentTime / 60) % 60);
+  if (m <= 9) m = '0' + m;
+  if (s <= 9) s = '0' + s;
+  let totalS = parseInt(jukebox.duration % 60);
+  let totalM = parseInt((jukebox.duration / 60) % 60);
+  if (totalM <= 9) totalM = '0' + totalM;
+  if (totalS <= 9) totalS = '0' + totalS;
 
-  // track time elapsed with time slider
+  setTime();
 
-  // change song time with time slider
+  elapsedTime.textContent = m + ':' + s + '/' + totalM + ':' + totalS;
+}, false);
 
+function setTime() {
+  let newTime = jukebox.currentTime * (100 / jukebox.duration);
+  timeSlider.value = newTime;
 
-  // playlist functionality:
+}
 
-  // handle the form
-  var playlistForm = document.getElementById('playlist-form');
+volume.addEventListener("input", function() {
+  jukebox.volume = volume.value;
+  volumeValue.innerHTML = volume.value;
+}, false);
 
-  // make the list
-  var playList = document.getElementById('playlist');
-
-  // add a button to remove the last child
-  var removeFirst = document.getElementById('remove-first');
-
-  // add a button to remove the last child
-  var removeLast = document.getElementById('remove-last');
-
-  playlistForm.addEventListener('submit', function(event) {
-    // since the form reloads the page on submission,
-    // we need this special function:
-    event.preventDefault();
-
-    // get value from input
-    // since we named the input "task," we can call it
-    // like a property
-    let track = event.target.track
-    console.log(track.value)
-
-    // build an <li> tag with value
-    let li = '<li>' + track.value + '</li>';
-    // let li = '<li onclick=playPlaylistTrack()>'
-    // add <li> to <ul>
-    playList.innerHTML += li;
-
-    // clear the form box
-    track.value = ' ';
-  });
-
-  // build a button to remove last child
-  removeFirst.addEventListener('click', function() {
-    playList.firstElementChild.remove();
-  });
-
-  // build a button to remove last child
-  removeLast.addEventListener('click', function() {
-    playList.lastElementChild.remove();
-  });
-
-}(ENV);
+// change song time with time slider
+timeSlider.addEventListener("input", function() {
+  jukebox.currentTime = timeSlider.value;
+}, false);
